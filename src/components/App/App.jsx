@@ -7,6 +7,7 @@ import "./style.css";
 import Logo from "../Logo/Logo";
 import Search from "../Search/Search";
 import Header from "../Header/Header";
+import SearchInfo from "../SearchInfo/SearchInfo";
 
 
 
@@ -20,6 +21,9 @@ function App() {
     setCards(filterCards);
   }
 
+  useEffect(() => {
+    handleRequest();
+  },[searchQuery])
 
 
   const handleFormSubmit = (e) => {
@@ -41,6 +45,7 @@ function App() {
         </>
       </Header>
       <main className="content container">
+        <SearchInfo searchCount={cards.length} searchText={searchQuery}/>
         <Sort/>
         <div className="content__cards">
           <CardList goods={cards}/>
