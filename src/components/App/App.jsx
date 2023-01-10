@@ -8,6 +8,7 @@ import Logo from "../Logo/Logo";
 import Search from "../Search/Search";
 import Header from "../Header/Header";
 import SearchInfo from "../SearchInfo/SearchInfo";
+import Button from "../Card/Button/Button";
 
 
 
@@ -45,6 +46,8 @@ function App() {
         </>
       </Header>
       <main className="content container">
+        <Button type="primary">Купить </Button>
+        <Button type="secondary">Подробнее</Button>
         <SearchInfo searchCount={cards.length} searchText={searchQuery}/>
         <Sort/>
         <div className="content__cards">

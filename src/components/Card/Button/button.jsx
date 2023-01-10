@@ -1,12 +1,15 @@
-import "./style.css";
+import s from "./style.module.css";
+import cn from "classnames";
 
 
 
-
-function Button({children}) {
+function Button({type, children}) {
   return (
     <>
-      <button>
+      <button className={cn(s.button, {
+        [s.primary]: type === "primary",
+        [s.secondary]: type === "secondary" 
+      })}>
         {children}
       </button>
     </>

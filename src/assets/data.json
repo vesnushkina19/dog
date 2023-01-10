@@ -21,7 +21,8 @@
 		"isCart": false,
 		"available": true,
 		"stock": 10,
-		"picture": "https://react-learning.ru/image-compressed/2.jpg"
+		"picture": "https://react-learning.ru/image-compressed/2.jpg",
+		"tags": ["new", "sale"]
 	},
 	{
 		"name": "Крупная говяжья сушено-вяленая жилка",
@@ -33,7 +34,8 @@
 		"isCart": false,
 		"available": true,
 		"stock": 10,
-		"picture": "https://react-learning.ru/image-compressed/3.jpg"
+		"picture": "https://react-learning.ru/image-compressed/3.jpg",
+		"tags": ["new"]
 	},
 	{
 		"name": "Мелкая говяжья сушено-вяленая жилка",
