@@ -1,9 +1,4 @@
-import "./style.css";
-
-
-
-
-function App() {
+const App = () => {
   return (
     <>
       <Header/>

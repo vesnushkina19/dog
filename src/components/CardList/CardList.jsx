@@ -5,12 +5,12 @@ import "./style.css";
 
 
 
-function CardList({goods}) {
+function CardList({goods, onProductLike, user}) {
   return (
     <div className="cards">
 
     {
-    goods.map((item, index) => <Card key={index} {...item}/>)
+    goods.map((item) => <Card key={item._id} {...item}  onProductLike={onProductLike} user={user}/>)
       }
     </div>
   )
