@@ -8,11 +8,13 @@ import Logo from "../Logo/Logo";
 import Search from "../Search/Search";
 import Header from "../Header/Header";
 import SearchInfo from "../SearchInfo/SearchInfo";
-import Button from "../Card/Button/Button";
+import Spinner from "../Spinner/Spinner";
+
 
 import api from "../../utils/Api";
 import useDebounce from "../../hooks/useDebounce";
 import { isLiked } from "../../utils/products";
+
 
 
 
@@ -22,22 +24,31 @@ function App() {
   const [searchQuery, setSearchQuery] = useState("");
   const [user, setUser] = useState();
   const debounceSearchQuery = useDebounce(searchQuery, 500);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleRequest = () => {
+    setIsLoading(true)
     api.search(debounceSearchQuery)
       .then((searchResult) => {
         setCards(searchResult)
       })
       .catch(err => console.log(err))
+      .finally(() => {
+        setIsLoading(false)
+      })
   }
 
   useEffect(() => {
+    setIsLoading(true)
     Promise.all([api.getProductList(), api.getUserInfo()])
       .then(([productsData, userData]) => {
         setCards(productsData.products)
         setUser(userData)
       })
       .catch(err => console.log(err))
+      .finally(() => {
+        setIsLoading(false)
+      })
   },[])
 
 
@@ -86,7 +97,10 @@ function App() {
         <SearchInfo searchCount={cards.length} searchText={searchQuery}/>
         <Sort/>
         <div className="content__cards">
-          <CardList goods={cards} onProductLike={handleProductLike} user={user}/>
+          {isLoading 
+            ? <Spinner/> 
+            : <CardList goods={cards} onProductLike={handleProductLike} user={user}/>
+          }
         </div>
       </main>
       <Footer/>
