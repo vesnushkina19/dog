@@ -6,7 +6,7 @@
 	margin: 0 auto;
 }
 
-.product {
+.productCard {
 	display: flex;
 	margin-top: 23px;
 	gap: 100px;
