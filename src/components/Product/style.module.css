@@ -178,7 +178,7 @@
 }
 
 .favoriteActive svg {
-	fill: #000000;
+	fill: #ed3a3a;
 }
 
 @media (max-width: 1000px) {

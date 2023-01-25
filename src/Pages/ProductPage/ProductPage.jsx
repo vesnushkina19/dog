@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
@@ -10,17 +10,16 @@ import Spinner from "../../components/Spinner/Spinner";
 import api from "../../utils/Api";
 import { isLiked } from "../../utils/products";
 
-
+const ID_PRODUCT = "622c77e877d63f6e70967d22";
 
 export const ProductPage = () => {
 
-    const [searchQuery, setSearchQuery] = useState("");
     const [user, setUser] = useState();
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [product, setProduct] = useState(null)
 
 
-    const handleRequest = () => {
+    const handleRequest = useCallback((searchQuery) => {
         setIsLoading(true)
         api.search(searchQuery)
           .then((searchResult) => {
@@ -30,27 +29,37 @@ export const ProductPage = () => {
           .finally(() => {
             setIsLoading(false)
           })
-      }
+      }, [])
 
-    const handleFormSubmit = (e) => {
-        e.preventDefault();
-        handleRequest();
-      }
-
-    function handleProductLike(product) {
+    const handleProductLike = useCallback(() => {
         const liked = isLiked(product.likes, user._id) ;
         api.changeLikeProduct(product._id, liked)
             .then((newProduct) => {
                 setProduct(newProduct)
             })
-        }
+        },[product, user])
+
+        useEffect(() => {
+          setIsLoading(true)
+          Promise.all([api.getProductById(), api.getUserInfo()])
+            .then(([productsData, userData]) => {
+              setProduct(productsData)
+              setUser(userData)
+            })
+            .catch(err => console.log(err))
+            .finally(() => {
+              setIsLoading(false)
+            })
+        },[])
+
+
 
     return (
         <>
       <Header>
       <>
         <Logo className="logo logo_place_header"/>
-        <Search onSubmit={handleFormSubmit} />
+        <Search onSubmit={handleRequest} />
         </>
       </Header>
       <main className="content container">
@@ -58,7 +67,7 @@ export const ProductPage = () => {
         <div className="content__cards">
           {isLoading 
             ? <Spinner/> 
-            : <Product/>
+            : <Product {...product} user={user} onProductLike={handleProductLike}/>
           }
         </div>
       </main>

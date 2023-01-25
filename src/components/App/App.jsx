@@ -24,7 +24,7 @@ function App() {
   const [searchQuery, setSearchQuery] = useState("");
   const [user, setUser] = useState();
   const debounceSearchQuery = useDebounce(searchQuery, 500);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleRequest = () => {
     setIsLoading(true)

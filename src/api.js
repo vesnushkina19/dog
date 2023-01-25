@@ -3,9 +3,9 @@ const onResponce = (res) => {
 }
 
 class Api {
-    constructor({baseUrl, headers}) {
+    constructor({baseUrl, headers}){
         this._headers = headers;
-        this._baseUrl = baseUrl;
+        this._baseUrl= baseUrl;
     }
 
     getProductList() {
@@ -15,7 +15,7 @@ class Api {
     }
 
     getUserInfo() {
-        return fetch(`${this._baseUrl}/v2/group-7/users/me`, {
+        return fetch(`${this._baseUrl}/users/me`, {
             headers: this._headers
         }).then(onResponce)
     }
@@ -27,8 +27,8 @@ class Api {
     }
 
     setUserInfo(dataUser) {
-        return fetch(`${this._baseUrl}/v2/group-7/users/me`, {
-            method: "PATCH",
+        return fetch(`${this._baseUrl}/users/me`, {
+            method: 'PATCH',
             headers: this._headers,
             body: JSON.stringify(dataUser)
         }).then(onResponce)
@@ -49,10 +49,10 @@ class Api {
 }
 
 const config = {
-    baseUrl: "https://api.react-learning.ru",
+    baseUrl: 'https://api.react-learning.ru',
     headers: {
-        "content-type": "application/json",
-        Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzZhNTEwNzU5Yjk4YjAzOGY3NzlkMTEiLCJncm91cCI6Imdyb3VwLTciLCJpYXQiOjE2Njc5MTE5NDgsImV4cCI6MTY5OTQ0Nzk0OH0.JHyC_Szz7-DPldfNaYa2y94xWGhDQAiJl1Gz0kk8LEY"
+        'content-type': 'application/json',
+        Authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjJmOTk5MmFlNWM0MGMxMGMxMWRmZTQiLCJpYXQiOjE2NDcyODY2ODEsImV4cCI6MTY3ODgyMjY4MX0.WHKXAErKZtY445yXecOFZsx981MuXicJti-okSY-tac'
     }
 }
 
