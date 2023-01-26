@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import CardList from "../CardList/CardList";
 import Footer from "../Footer/Footer";
@@ -8,12 +8,14 @@ import Logo from "../Logo/Logo";
 import Search from "../Search/Search";
 import Header from "../Header/Header";
 import SearchInfo from "../SearchInfo/SearchInfo";
-import Spinner from "../Spinner/Spinner";
 
 
 import api from "../../utils/Api";
 import useDebounce from "../../hooks/useDebounce";
 import { isLiked } from "../../utils/products";
+import { CatalogPage } from "../../Pages/CatalogPage/CatalogPage";
+import { ProductPage } from "../../Pages/ProductPage/ProductPage";
+
 
 
 
@@ -26,17 +28,17 @@ function App() {
   const debounceSearchQuery = useDebounce(searchQuery, 500);
   const [isLoading, setIsLoading] = useState(true);
 
-  const handleRequest = () => {
+  const handleRequest = useCallback((searchQuery) => {
     setIsLoading(true)
-    api.search(debounceSearchQuery)
+    api.search(searchQuery)
       .then((searchResult) => {
-        setCards(searchResult)
+        console.log(searchResult);
       })
       .catch(err => console.log(err))
       .finally(() => {
         setIsLoading(false)
       })
-  }
+  }, [])
 
   useEffect(() => {
     setIsLoading(true)
@@ -89,19 +91,27 @@ function App() {
       <Header user={user} onUpdateUser={handleUpdateUser}>
       <>
         <Logo className="logo logo_place_header"/>
-        <Search onSubmit={handleFormSubmit} onInput={handleInputChange}/>
-        </>
+        <Search 
+        onSubmit={handleFormSubmit} 
+        onInput={handleInputChange}
+        />
+      </>
       </Header>
       <main className="content container">
-        
         <SearchInfo searchCount={cards.length} searchText={searchQuery}/>
-        <Sort/>
-        <div className="content__cards">
-          {isLoading 
-            ? <Spinner/> 
-            : <CardList goods={cards} onProductLike={handleProductLike} user={user}/>
-          }
-        </div>
+        <CatalogPage 
+          isLoading={isLoading} 
+          cards={cards} 
+          handleProductLike={handleProductLike}
+          user={user}
+          />
+        
+        <ProductPage
+         user={user}
+         isLoading={isLoading}
+        />
+        
+        
       </main>
       <Footer/>
     </>

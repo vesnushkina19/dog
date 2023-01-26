@@ -20,8 +20,8 @@ class Api {
         }).then(onResponce)
     }
 
-    getProductById(idProduct) {
-        return fetch(`${this._baseUrl}/products/${idProduct}`, {
+    getProductById(productId) {
+        return fetch(`${this._baseUrl}/products/${productId}`, {
             headers: this._headers
         }).then(onResponce)
     }

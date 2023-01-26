@@ -12,24 +12,11 @@ import { isLiked } from "../../utils/products";
 
 const ID_PRODUCT = "622c77e877d63f6e70967d22";
 
-export const ProductPage = () => {
+export const ProductPage = ({user, isLoading}) => {
 
-    const [user, setUser] = useState();
-    const [isLoading, setIsLoading] = useState(true);
+  
     const [product, setProduct] = useState(null)
 
-
-    const handleRequest = useCallback((searchQuery) => {
-        setIsLoading(true)
-        api.search(searchQuery)
-          .then((searchResult) => {
-            console.log(searchResult);
-          })
-          .catch(err => console.log(err))
-          .finally(() => {
-            setIsLoading(false)
-          })
-      }, [])
 
     const handleProductLike = useCallback(() => {
         const liked = isLiked(product.likes, user._id) ;
@@ -40,38 +27,28 @@ export const ProductPage = () => {
         },[product, user])
 
         useEffect(() => {
-          setIsLoading(true)
+          // setIsLoading(true);
           Promise.all([api.getProductById(), api.getUserInfo()])
             .then(([productsData, userData]) => {
               setProduct(productsData)
-              setUser(userData)
+              // setUser(userData)
             })
             .catch(err => console.log(err))
-            .finally(() => {
-              setIsLoading(false)
-            })
+            // .finally(() => {
+            //   setIsLoading(false)
+            // })
         },[])
 
 
 
     return (
         <>
-      <Header>
-      <>
-        <Logo className="logo logo_place_header"/>
-        <Search onSubmit={handleRequest} />
-        </>
-      </Header>
-      <main className="content container">
-        <Sort/>
         <div className="content__cards">
           {isLoading 
             ? <Spinner/> 
             : <Product {...product} user={user} onProductLike={handleProductLike}/>
           }
         </div>
-      </main>
-      <Footer/>
     </>
     )
 }
